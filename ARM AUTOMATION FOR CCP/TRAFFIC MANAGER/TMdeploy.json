@@ -1,0 +1,91 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "TM_Name": {
+      "defaultValue": "EKCCtestProfile",
+      "type": "String"
+    },
+    "ProductionAppName": {
+      "defaultValue": "testAppEKCCAA",
+      "type": "String"
+    },
+    "ProductionAppID": {
+      "defaultValue": "/subscriptions/4761947e-b6f9-4534-9562-2487fc176960/resourceGroups/EKTest/providers/Microsoft.Web/sites/testAppEKCCAA",
+      "type": "String"
+    },
+    "DRAppName": {
+      "defaultValue": "testAppEKCCAADR",
+      "type": "String"
+    },
+    "DRAppID": {
+      "defaultValue": "/subscriptions/4761947e-b6f9-4534-9562-2487fc176960/resourceGroups/EKDR/providers/Microsoft.Web/sites/testAppEKCCAADR",
+      "type": "String"
+    },
+    "DRAppLocation": {
+      "type": "string",
+      "defaultValue": "East US",
+      "allowedValues": [
+        "East US",
+        "West Europe",
+        "South Central US",
+        "North Europe",
+        "Southeast Asia"
+      ]
+    }
+    },
+    "variables": {},
+    "resources": [
+      {
+        "type": "Microsoft.Network/trafficManagerProfiles",
+        "apiVersion": "2018-04-01",
+        "name": "[parameters('TM_Name')]",
+        "location": "global",
+        "properties": {
+          "profileStatus": "Enabled",
+          "trafficRoutingMethod": "Priority",
+          "dnsConfig": {
+            "relativeName": "[parameters('TM_Name')]",
+            "ttl": 30
+          },
+          "monitorConfig": {
+            "protocol": "HTTP",
+            "port": 80,
+            "path": "/",
+            "intervalInSeconds": 30,
+            "toleratedNumberOfFailures": 3,
+            "timeoutInSeconds": 10
+          },
+          "endpoints": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/trafficManagerProfiles', parameters('TM_Name')), '/azureEndpoints/',parameters('ProductionAppName'))]",
+              "name": "[parameters('ProductionAppName')]",
+              "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+              "properties": {
+                "endpointStatus": "Enabled",
+                "targetResourceId": "[parameters('ProductionAppID')]",
+                "target": "testappekccaa.azurewebsites.net",
+                "weight": 1,
+                "priority": 1,
+                "endpointLocation": "[resourceGroup().location]"
+              }
+            },
+            {
+              "id": "[concat(resourceId('Microsoft.Network/trafficManagerProfiles', parameters('TM_Name')), '/azureEndpoints/', parameters('DRAppName'))]",
+              "name": "[parameters('DRAppName')]",
+              "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+              "properties": {
+                "endpointStatus": "Enabled",
+                "targetResourceId": "[parameters('DRAppID')]",
+                "target": "testappekccaadr.azurewebsites.net",
+                "weight": 1,
+                "priority": 2,
+                "endpointLocation": "[parameters('DRAppLocation')]"
+              }
+            }
+          ],
+          "trafficViewEnrollmentStatus": "Disabled"
+        }
+      }
+    ]
+  }

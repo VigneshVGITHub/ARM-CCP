@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "WebAppName": {
+      "value": "testAppEKCCAA"
+    },
+    "trafficManagerProfile": {
+      "value": "EKCCtestProfile"
+    },
+    "Production PlanName": {
+      "value": "ProducionPlan"
+    },
+    "Production PlanSkuName": {
+      "value": "B1"
+    },
+    "Solution": {
+      "value": "Crew Portal"
+    },
+    "Sub_Sol": {
+      "value": "Sharepoint web Site"
+    },
+    "Developer": {
+      "value": "Development Owner"
+    },
+    "GitHubrepoID": {
+      "value": "2d119a720d3b534d47f418c3b1d092fb2d1245ea"
+    },
+    "Repo Auther": {
+      "value": "Azure Samples Bot"
+    },
+    "Auther e-mail": {
+      "value": "acomsmpbot@microsoft.com"
+    }
+  }
+}

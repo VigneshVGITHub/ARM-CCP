@@ -1,0 +1,24 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "TM_Name": {
+      "value": "EKCCtestProfile"
+    },
+    "ProductionAppName": {
+      "value": "testAppEKCCAA"
+    },
+    "ProductionAppID": {
+      "value": "/subscriptions/4761947e-b6f9-4534-9562-2487fc176960/resourceGroups/EKTest/providers/Microsoft.Web/sites/testAppEKCCAA"
+    },
+    "DRAppName": {
+      "value": "testAppEKCCAADR"
+    },
+    "DRAppID": {
+      "value": "/subscriptions/4761947e-b6f9-4534-9562-2487fc176960/resourceGroups/EKDR/providers/Microsoft.Web/sites/testAppEKCCAADR"
+    },
+    "DRAppLocation": {
+      "value": "East US"
+    }
+  }
+}
